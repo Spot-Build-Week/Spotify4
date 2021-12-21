@@ -1,0 +1,18 @@
+{% extends "main.html" %}
+
+{% block content %}
+<div class="whatever" style="font-size:90%;color:#acacac;">
+    <div><img src={{picture_track}} width="150" height="150"></div>
+    <div>
+        <audio controls="controls">
+            <source src={{preview_track}} type="audio/mpeg"/>
+        </audio>
+        <br/>
+        {{title_track}} - {{artist_track}}
+    </div>
+    <div>
+    <img src="https://via.placeholder.com/150">
+    </div>
+</div>
+
+{% endblock %}

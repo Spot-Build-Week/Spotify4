@@ -10,10 +10,9 @@ app = Flask(__name__)
 cid = getenv('CLIENT_ID')
 secret = getenv('CLIENT_SECRET')
 
-client_credentials_manager = SpotifyClientCredentials(client_id=cid, 
-                                                      client_secret=secret)
+client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
 sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
-    
+
 @app.route('/')
 def root():
     # Query users to display on the home page
@@ -26,8 +25,14 @@ def analyze():
     analyze_track = list((sp.audio_features(input_url)[0]).items())[:11]
     artist_track = sp.track(input_url)['artists'][0]['name']
     title_track = sp.track(input_url)['name']
-    return str([artist_track, title_track, analyze_track])
-
+    preview_track = sp.track(input_url)['preview_url']
+    picture_track = sp.track(input_url)['album']['images'][0]['url']
+    #return str([artist_track, title_track, analyze_track, preview_track])
+    return render_template('analyze.html',
+                           preview_track=preview_track,
+                           picture_track=picture_track,
+                           title_track=title_track,
+                           artist_track=artist_track)
 
 if __name__=="__main__":
     app.run()
