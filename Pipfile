@@ -7,6 +7,9 @@ name = "pypi"
 flask = "*"
 spotipy = "*"
 gunicorn = "*"
+sklearn = "*"
+numpy = "*"
+pandas = "*"
 
 [dev-packages]
 
