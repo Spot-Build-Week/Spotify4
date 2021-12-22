@@ -1,35 +1,35 @@
 <!DOCTYPE html>
-<link rel= "stylesheet" 
-      type= "text/css" 
-      href= "{{ url_for('static',filename='styles/style.css') }}">
-<html>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
 
-  <head><title>Spotify-4</title><link rel="stylesheet" href="https://unpkg.com/picnic" /></head>
-  
-  <div class="topnav">
-    <!-- Centered link -->
-    <div class="topnav-centered">
-      <a href="/" class="active">Spotify-4</a>
-    </div>
-    <!-- Left-aligned links (default) -->
-    <a href="/how-it-works">How It Works</a>
-    <!-- Right-aligned links -->
-    <div class="topnav-right">
-      <a href="/about-the-team">About The Team</a>
-    </div>
+<html>
+<head>
+  <title>Spotify-4</title>
+  <link rel="stylesheet" href="https://unpkg.com/picnic" />
+</head>
+<div class="topnav">
+  <!-- Centered link -->
+  <div class="topnav-centered">
+    <a href="/" class="active">Spotify-4</a>
   </div>
-  <body style="background-color:rgb(14, 13, 13);
+  <!-- Left-aligned links (default) -->
+  <a href="/how-it-works">How It Works</a>
+  <!-- Right-aligned links -->
+  <div class="topnav-right">
+    <a href="/about-the-team">About The Team</a>
+  </div>
+</div>
+
+<body style="background-color:rgb(14, 13, 13);
               text-align:center;">
-              <h1 style="font-size:300%;color:#acacac;">Welcome</h1>
-              <h1 style="font-size:90%;color:#acacac;">Please enter the link to your song below:</h1>
-              <form action="/analyze" method="post">
-                <input type="text"  style="width:500px" name="song_link" placeholder="Spotify song link">
-                <input type="submit" value="Submit">
-                </form>
-  
-  </body>
-  <main class="container">
-    {% block content %}
-    {% endblock %}
-              
-  </html>
+  <h1 style="font-size:300%;color:#acacac;">Welcome</h1>
+  <h1 style="font-size:90%;color:#acacac;">Please enter the link to your song below:</h1>
+  <form action="/analyze" method="post">
+    <input type="text" style="width:500px" name="song_link" placeholder="Spotify song link">
+    <input type="submit" value="Submit">
+  </form>
+
+</body>
+<main class="container">
+  {% block content %}
+  {% endblock %}
+</html>

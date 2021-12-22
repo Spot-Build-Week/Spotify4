@@ -1,17 +1,16 @@
 {% extends "main.html" %}
 
 {% block content %}
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+
 <div class="whatever" style="font-size:90%;color:#acacac;">
     <div><img src={{picture_track}} width="180" height="180"></div>
     <div style="width:300px;">
         <audio controls="controls">
-            <source src={{preview_track}} type="audio/mpeg"/>
+            <source src={{preview_track}} type="audio/mpeg" />
         </audio>
-        <br/>
+        <br />
         {{title_track}} - {{artist_track}}
-    </div>
-    <div>
-    <img src="https://via.placeholder.com/150">
     </div>
 </div>
 </br>
@@ -20,52 +19,68 @@
     <div><img src={{picture_track_1}} width="180" height="180"></div>
     <div style="width:300px;">
         <audio controls="controls">
-            <source src={{preview_track_1}} type="audio/mpeg"/>
+            <source src={{preview_track_1}} type="audio/mpeg" />
         </audio>
-        <br/>
+        <br />
         {{title_track_1}} - {{artist_track_1}}
     </div>
-    <div>
-    <img src="https://via.placeholder.com/150">
+    <div id='radars0'>
+        <script>
+            var graphs = {{ radars[0] | safe}};
+            Plotly.plot('radars0', graphs, {});
+        </script>
+        <!-- <img src="https://via.placeholder.com/150"> -->
     </div>
 </div>
 <div class="whatever" style="font-size:90%;color:#acacac;">
     <div><img src={{picture_track_2}} width="180" height="180"></div>
     <div style="width:300px;">
         <audio controls="controls">
-            <source src={{preview_track_2}} type="audio/mpeg"/>
+            <source src={{preview_track_2}} type="audio/mpeg" />
         </audio>
-        <br/>
+        <br />
         {{title_track_2}} - {{artist_track_2}}
     </div>
-    <div>
-    <img src="https://via.placeholder.com/150">
+    <div id='radars1'>
+        <script>
+            var graphs = {{ radars[1] | safe}};
+            Plotly.plot('radars1', graphs, {});
+        </script>
+        <!-- <img src="https://via.placeholder.com/150"> -->
     </div>
 </div>
 <div class="whatever" style="font-size:90%;color:#acacac;">
     <div><img src={{picture_track_3}} width="180" height="180"></div>
     <div style="width:300px;">
         <audio controls="controls">
-            <source src={{preview_track_3}} type="audio/mpeg"/>
+            <source src={{preview_track_3}} type="audio/mpeg" />
         </audio>
-        <br/>
+        <br />
         {{title_track_3}} - {{artist_track_3}}
     </div>
-    <div>
-    <img src="https://via.placeholder.com/150">
+    <div id='radars2'>
+        <script>
+            var graphs = {{ radars[2] | safe}};
+            Plotly.plot('radars2', graphs, {});
+        </script>
+        <!-- <img src="https://via.placeholder.com/150"> -->
     </div>
 </div>
 <div class="whatever" style="font-size:90%;color:#acacac;">
     <div><img src={{picture_track_4}} width="180" height="180"></div>
     <div style="width:300px;">
         <audio controls="controls">
-            <source src={{preview_track_4}} type="audio/mpeg"/>
+            <source src={{preview_track_4}} type="audio/mpeg" />
         </audio>
-        <br/>
+        <br />
         {{title_track_4}} - {{artist_track_4}}
     </div>
-    <div>
-    <img src="https://via.placeholder.com/150">
+    <div id='radars3'>
+        <script>
+            var graphs = {{ radars[3] | safe}};
+            Plotly.plot('radars3', graphs, {});
+        </script>
+        <!-- <img src="https://via.placeholder.com/150"> -->
     </div>
 </div>
 
