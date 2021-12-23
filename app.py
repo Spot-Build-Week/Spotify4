@@ -32,15 +32,26 @@ sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
 @app.route("/")
 def root():
-    # Query users to display on the home page
+    '''Root bage'''
     return render_template("main.html", title="Spotify4")
+
+@app.route("/about-the-team")
+def abouttheteam():
+    '''About The Team - page'''
+    return render_template("about-the-team.html", title="Spotify4")
+
+@app.route("/how-it-works")
+def howitworks():
+    '''How It Works - page'''
+    return render_template("how-it-works.html", title="Spotify4")
 
 
 @app.route("/analyze", methods=["POST"])
 def analyze():
-    # Query users to display on the home page
+    '''Where the magic happens'''
     input_url = request.values["song_link"]
 
+    # Get audio features for supplied URL
     analyze_track = sp.audio_features(input_url)[0]
     analyze_track = pd.DataFrame(
         {
@@ -61,14 +72,22 @@ def analyze():
     )
     analyze_track.set_index("id", inplace=True)
 
+    # Model variable assignment
     _, neighbors_indexes = model.kneighbors(analyze_track)
     Y = pd.read_csv("indexes")
-    start_time = time.time()
+    
+    # Generating the links
     result_ids = []
     for index in neighbors_indexes[0]:
         result_ids.append("https://open.spotify.com/track/" + Y.iloc[index].id)
-    print(time.time() - start_time, file=sys.stderr)
     
+    # Generating the radar charts
+    radars = []
+    radars.append(radar_charts(input_url, sp))
+    for song in result_ids:
+        radars.append(radar_charts(song, sp))
+    
+    # Messy variable assignments
     track_temp = sp.track(input_url)
     artist_track = track_temp["artists"][0]["name"]
     title_track = track_temp["name"]
@@ -133,29 +152,26 @@ def analyze():
     artist_track_10 = track_temp["artists"][0]["name"]
     title_track_10 = track_temp["name"]
     preview_track_10 = track_temp["preview_url"]
-    picture_track_10 = track_temp["album"]["images"][0]["url"]    
-    
-    radars = []
-    for song in result_ids:
-        radars.append(radar_charts(song, sp))    
+    picture_track_10 = track_temp["album"]["images"][0]["url"]            
     
     return render_template(
         "analyze.html",
-        preview_track=preview_track, picture_track=picture_track, title_track=title_track, artist_track=artist_track,
-        preview_track_1=preview_track_1, picture_track_1=picture_track_1, title_track_1=title_track_1, artist_track_1=artist_track_1,
-        preview_track_2=preview_track_2, picture_track_2=picture_track_2, title_track_2=title_track_2, artist_track_2=artist_track_2,
-        preview_track_3=preview_track_3, picture_track_3=picture_track_3, title_track_3=title_track_3, artist_track_3=artist_track_3,
-        preview_track_4=preview_track_4, picture_track_4=picture_track_4, title_track_4=title_track_4, artist_track_4=artist_track_4,
-        preview_track_5=preview_track_5, picture_track_5=picture_track_5, title_track_5=title_track_5, artist_track_5=artist_track_5,
-        preview_track_6=preview_track_6, picture_track_6=picture_track_6, title_track_6=title_track_6, artist_track_6=artist_track_6,
-        preview_track_7=preview_track_7, picture_track_7=picture_track_7, title_track_7=title_track_7, artist_track_7=artist_track_7,
-        preview_track_8=preview_track_8, picture_track_8=picture_track_8, title_track_8=title_track_8, artist_track_8=artist_track_8,
-        preview_track_9=preview_track_9, picture_track_9=picture_track_9, title_track_9=title_track_9, artist_track_9=artist_track_9,
-        preview_track_10=preview_track_10, picture_track_10=picture_track_10, title_track_10=title_track_10, artist_track_10=artist_track_10,
+        preview_track=preview_track, picture_track=picture_track, title_track=title_track, artist_track=artist_track, link_url=input_url,
+        preview_track_1=preview_track_1, picture_track_1=picture_track_1, title_track_1=title_track_1, artist_track_1=artist_track_1, link_url_1=result_ids[0],
+        preview_track_2=preview_track_2, picture_track_2=picture_track_2, title_track_2=title_track_2, artist_track_2=artist_track_2, link_url_2=result_ids[1],
+        preview_track_3=preview_track_3, picture_track_3=picture_track_3, title_track_3=title_track_3, artist_track_3=artist_track_3, link_url_3=result_ids[2],
+        preview_track_4=preview_track_4, picture_track_4=picture_track_4, title_track_4=title_track_4, artist_track_4=artist_track_4, link_url_4=result_ids[3],
+        preview_track_5=preview_track_5, picture_track_5=picture_track_5, title_track_5=title_track_5, artist_track_5=artist_track_5, link_url_5=result_ids[4],
+        preview_track_6=preview_track_6, picture_track_6=picture_track_6, title_track_6=title_track_6, artist_track_6=artist_track_6, link_url_6=result_ids[5],
+        preview_track_7=preview_track_7, picture_track_7=picture_track_7, title_track_7=title_track_7, artist_track_7=artist_track_7, link_url_7=result_ids[6],
+        preview_track_8=preview_track_8, picture_track_8=picture_track_8, title_track_8=title_track_8, artist_track_8=artist_track_8, link_url_8=result_ids[7],
+        preview_track_9=preview_track_9, picture_track_9=picture_track_9, title_track_9=title_track_9, artist_track_9=artist_track_9, link_url_9=result_ids[8],
+        preview_track_10=preview_track_10, picture_track_10=picture_track_10, title_track_10=title_track_10, artist_track_10=artist_track_10, link_url_10=result_ids[9],
         radars=radars)
 
 
 def radar_charts(output_url, sp):
+    # Generates a radar chart for variables given a supplied Spotify url
     analyze_track = list((sp.audio_features(output_url)[0]).items())[:11]
     categories = ["danceability", "energy",
                   "key", "loudness", "speechiness",
@@ -168,10 +184,8 @@ def radar_charts(output_url, sp):
     Song2[10] = (Song2[10] - (0)) / (249)
     Song2.pop(4)
 
-    fig = go.Figure(data=[go.Scatterpolar(r=Song2, theta=categories, fill="toself")])
-
-    fig.update_layout(margin=dict(t=20, b=20, l=20, r=20), width=520, height=400, paper_bgcolor='rgb(14, 13, 13)', font_color=('#acacac'))
-    
+    fig = go.Figure(data=[go.Scatterpolar(r=Song2, theta=categories, fill="toself", fillcolor='rgba(29,185,84,0.7)', line=dict(color="rgba(0,0,0,0.5)"))])
+    fig.update_layout(template='plotly_dark', margin=dict(t=20, b=20, l=20, r=20), width=420, height=300, paper_bgcolor='rgba(14,13,13,0)', plot_bgcolor='rgba(0,0,0,0)', font_color=('#acacac'))
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
