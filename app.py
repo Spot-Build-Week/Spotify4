@@ -10,6 +10,9 @@ import pandas as pd
 import plotly
 import plotly.graph_objects as go
 from plotly import io
+import sys
+
+import time
 
 with open("base_model", "rb") as f:
     model = pickle.load(f)
@@ -60,129 +63,116 @@ def analyze():
 
     _, neighbors_indexes = model.kneighbors(analyze_track)
     Y = pd.read_csv("indexes")
+    start_time = time.time()
     result_ids = []
     for index in neighbors_indexes[0]:
         result_ids.append("https://open.spotify.com/track/" + Y.iloc[index].id)
+    print(time.time() - start_time, file=sys.stderr)
+    
+    track_temp = sp.track(input_url)
+    artist_track = track_temp["artists"][0]["name"]
+    title_track = track_temp["name"]
+    preview_track = track_temp["preview_url"]
+    picture_track = track_temp["album"]["images"][0]["url"]
 
-    artist_track = sp.track(input_url)["artists"][0]["name"]
-    title_track = sp.track(input_url)["name"]
-    preview_track = sp.track(input_url)["preview_url"]
-    picture_track = sp.track(input_url)["album"]["images"][0]["url"]
+    track_temp = sp.track(result_ids[0])
+    artist_track_1 = track_temp["artists"][0]["name"]
+    title_track_1 = track_temp["name"]
+    preview_track_1 = track_temp["preview_url"]
+    picture_track_1 = track_temp["album"]["images"][0]["url"]
 
-    artist_track_1 = sp.track(result_ids[0])["artists"][0]["name"]
-    title_track_1 = sp.track(result_ids[0])["name"]
-    preview_track_1 = sp.track(result_ids[0])["preview_url"]
-    picture_track_1 = sp.track(result_ids[0])["album"]["images"][0]["url"]
+    track_temp = sp.track(result_ids[1])
+    artist_track_2 = track_temp["artists"][0]["name"]
+    title_track_2 = track_temp["name"]
+    preview_track_2 = track_temp["preview_url"]
+    picture_track_2 = track_temp["album"]["images"][0]["url"]
 
-    artist_track_2 = sp.track(result_ids[1])["artists"][0]["name"]
-    title_track_2 = sp.track(result_ids[1])["name"]
-    preview_track_2 = sp.track(result_ids[1])["preview_url"]
-    picture_track_2 = sp.track(result_ids[1])["album"]["images"][0]["url"]
+    track_temp = sp.track(result_ids[2])
+    artist_track_3 = track_temp["artists"][0]["name"]
+    title_track_3 = track_temp["name"]
+    preview_track_3 = track_temp["preview_url"]
+    picture_track_3 = track_temp["album"]["images"][0]["url"]
 
-    artist_track_3 = sp.track(result_ids[2])["artists"][0]["name"]
-    title_track_3 = sp.track(result_ids[2])["name"]
-    preview_track_3 = sp.track(result_ids[2])["preview_url"]
-    picture_track_3 = sp.track(result_ids[2])["album"]["images"][0]["url"]
-
-    artist_track_4 = sp.track(result_ids[3])["artists"][0]["name"]
-    title_track_4 = sp.track(result_ids[3])["name"]
-    preview_track_4 = sp.track(result_ids[3])["preview_url"]
-    picture_track_4 = sp.track(result_ids[3])["album"]["images"][0]["url"]
-
+    track_temp = sp.track(result_ids[3])
+    artist_track_4 = track_temp["artists"][0]["name"]
+    title_track_4 = track_temp["name"]
+    preview_track_4 = track_temp["preview_url"]
+    picture_track_4 = track_temp["album"]["images"][0]["url"]
+    
+    track_temp = sp.track(result_ids[4])
+    artist_track_5 = track_temp["artists"][0]["name"]
+    title_track_5 = track_temp["name"]
+    preview_track_5 = track_temp["preview_url"]
+    picture_track_5 = track_temp["album"]["images"][0]["url"]
+    
+    track_temp = sp.track(result_ids[5])
+    artist_track_6 = track_temp["artists"][0]["name"]
+    title_track_6 = track_temp["name"]
+    preview_track_6 = track_temp["preview_url"]
+    picture_track_6 = track_temp["album"]["images"][0]["url"]
+    
+    track_temp = sp.track(result_ids[6])
+    artist_track_7 = track_temp["artists"][0]["name"]
+    title_track_7 = track_temp["name"]
+    preview_track_7 = track_temp["preview_url"]
+    picture_track_7 = track_temp["album"]["images"][0]["url"]
+    
+    track_temp = sp.track(result_ids[7])
+    artist_track_8 = track_temp["artists"][0]["name"]
+    title_track_8 = track_temp["name"]
+    preview_track_8 = track_temp["preview_url"]
+    picture_track_8 = track_temp["album"]["images"][0]["url"]
+    
+    track_temp = sp.track(result_ids[8])
+    artist_track_9 = track_temp["artists"][0]["name"]
+    title_track_9 = track_temp["name"]
+    preview_track_9 = track_temp["preview_url"]
+    picture_track_9 = track_temp["album"]["images"][0]["url"]
+    
+    track_temp = sp.track(result_ids[9])
+    artist_track_10 = track_temp["artists"][0]["name"]
+    title_track_10 = track_temp["name"]
+    preview_track_10 = track_temp["preview_url"]
+    picture_track_10 = track_temp["album"]["images"][0]["url"]    
+    
     radars = []
     for song in result_ids:
-        radars.append(radar_charts(input_url, song, sp))
-
+        radars.append(radar_charts(song, sp))    
+    
     return render_template(
         "analyze.html",
-        preview_track=preview_track,
-        picture_track=picture_track,
-        title_track=title_track,
-        artist_track=artist_track,
-        preview_track_1=preview_track_1,
-        picture_track_1=picture_track_1,
-        title_track_1=title_track_1,
-        artist_track_1=artist_track_1,
-        preview_track_2=preview_track_2,
-        picture_track_2=picture_track_2,
-        title_track_2=title_track_2,
-        artist_track_2=artist_track_2,
-        preview_track_3=preview_track_3,
-        picture_track_3=picture_track_3,
-        title_track_3=title_track_3,
-        artist_track_3=artist_track_3,
-        preview_track_4=preview_track_4,
-        picture_track_4=picture_track_4,
-        title_track_4=title_track_4,
-        artist_track_4=artist_track_4,
-        radars=radars,
-    )
+        preview_track=preview_track, picture_track=picture_track, title_track=title_track, artist_track=artist_track,
+        preview_track_1=preview_track_1, picture_track_1=picture_track_1, title_track_1=title_track_1, artist_track_1=artist_track_1,
+        preview_track_2=preview_track_2, picture_track_2=picture_track_2, title_track_2=title_track_2, artist_track_2=artist_track_2,
+        preview_track_3=preview_track_3, picture_track_3=picture_track_3, title_track_3=title_track_3, artist_track_3=artist_track_3,
+        preview_track_4=preview_track_4, picture_track_4=picture_track_4, title_track_4=title_track_4, artist_track_4=artist_track_4,
+        preview_track_5=preview_track_5, picture_track_5=picture_track_5, title_track_5=title_track_5, artist_track_5=artist_track_5,
+        preview_track_6=preview_track_6, picture_track_6=picture_track_6, title_track_6=title_track_6, artist_track_6=artist_track_6,
+        preview_track_7=preview_track_7, picture_track_7=picture_track_7, title_track_7=title_track_7, artist_track_7=artist_track_7,
+        preview_track_8=preview_track_8, picture_track_8=picture_track_8, title_track_8=title_track_8, artist_track_8=artist_track_8,
+        preview_track_9=preview_track_9, picture_track_9=picture_track_9, title_track_9=title_track_9, artist_track_9=artist_track_9,
+        preview_track_10=preview_track_10, picture_track_10=picture_track_10, title_track_10=title_track_10, artist_track_10=artist_track_10,
+        radars=radars)
 
 
-def radar_charts(input_url, output_url, sp):
-    analyze_track_1 = list((sp.audio_features(input_url)[0]).items())[:11]
-    analyze_track_2 = list((sp.audio_features(output_url)[0]).items())[:11]
-    song_and_artist_1 = (
-        str(sp.track(input_url)["name"])
-        + " by "
-        + str(sp.track(input_url)["artists"][0]["name"])
-    )
-    song_and_artist_2 = (
-        str(sp.track(output_url)["name"])
-        + " by "
-        + str(sp.track(output_url)["artists"][0]["name"])
-    )
+def radar_charts(output_url, sp):
+    analyze_track = list((sp.audio_features(output_url)[0]).items())[:11]
+    categories = ["danceability", "energy",
+                  "key", "loudness", "speechiness",
+                  "acousticness", "instrumentalness",
+                  "liveness", "valence", "tempo"]
 
-    categories = [
-        "danceability",
-        "energy",
-        "key",
-        "loudness",
-        "speechiness",
-        "acousticness",
-        "instrumentalness",
-        "liveness",
-        "valence",
-        "tempo",
-    ]
-    categories1 = [*categories, categories[0]]
-
-    Song1 = [x[1] for x in analyze_track_1]
-    Song1[2] = (Song1[2] - (-1)) / (11 + 1)
-    Song1[3] = (Song1[3] - (-60)) / (7.234 + 60)
-    Song1[10] = (Song1[10] - (0)) / (249)
-    Song1.pop(4)
-
-    Song2 = [x[1] for x in analyze_track_2]
+    Song2 = [x[1] for x in analyze_track]
     Song2[2] = (Song2[2] - (-1)) / (11 + 1)
     Song2[3] = (Song2[3] - (-60)) / (7.234 + 60)
     Song2[10] = (Song2[10] - (0)) / (249)
     Song2.pop(4)
 
-    fig = go.Figure(
-        data=[
-            go.Scatterpolar(
-                r=Song1, theta=categories1, fill="toself", name=song_and_artist_1
-            ),
-            go.Scatterpolar(
-                r=Song2, theta=categories1, fill="toself", name=song_and_artist_2
-            ),
-        ],
-        layout=go.Layout(
-            showlegend=False,
-        ),
-    )
+    fig = go.Figure(data=[go.Scatterpolar(r=Song2, theta=categories, fill="toself")])
 
-    fig.update_layout(
-        margin=dict(t=0, b=0, l=0, r=0),
-        autosize=True,
-        width=400,
-        height=200,
-    )
-
-    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-
-    return graphJSON
+    fig.update_layout(margin=dict(t=20, b=20, l=20, r=20), width=520, height=400, paper_bgcolor='rgb(14, 13, 13)', font_color=('#acacac'))
+    
+    return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
 if __name__ == "__main__":
