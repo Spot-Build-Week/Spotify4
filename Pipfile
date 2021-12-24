@@ -10,6 +10,7 @@ gunicorn = "*"
 sklearn = "*"
 numpy = "*"
 pandas = "*"
+plotly = "*"
 
 [dev-packages]
 
